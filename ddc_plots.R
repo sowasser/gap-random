@@ -47,7 +47,7 @@ ggplot(data = world) +
   xlab(" ") + ylab(" ")
 
 # Plot 2023 data
-ggplot(data = world) +
+ddc2023_map <- ggplot(data = world) +
   geom_sf() +
   geom_point(data = ddc2023 %>% filter(year == 2023),
              aes(x = start_longitude, y = start_latitude, 
@@ -55,6 +55,11 @@ ggplot(data = world) +
   coord_sf(xlim = c(-179, -157), ylim = c(54, 66), expand = FALSE) +
   scale_color_viridis(option = "mako", discrete = FALSE, direction = -1, end = 0.9) +
   xlab(" ") + ylab(" ")
+ddc2023_map
+
+ggsave(ddc2023_map, filename = here("plots", "ddc_2023.png"), 
+       width = 200, height = 200, units = "mm", dpi = 300)
+
 
 # Plot difference between them 
 ddc_diff <- ddc2023 %>% filter(year < 2023)
@@ -62,15 +67,21 @@ ddc_diff$difference <- ((ddc_diff$ddc_cpue_kg_ha - ddc2022_Lukas$ddc_cpue_kg_ha)
 is.na(ddc_diff$difference) <- 0
 
 limit <- max(abs(ddc_diff$difference)) * c(-1, 1)
-ggplot(data = world) +
+diff_plot <- ggplot(data = world) +
   geom_sf() +
   geom_point(data = ddc2022_NBS18,
              aes(x = start_longitude, y = start_latitude, 
                  size = abs(difference), color = difference, alpha = abs(difference))) +
   coord_sf(xlim = c(-179, -157), ylim = c(54, 66), expand = FALSE) +
   scale_color_gradientn(colors = pals::brewer.prgn(100), limit = limit) +
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
   xlab(" ") + ylab(" ") + labs(color = "% difference",
                                size = "% difference",
                                alpha = "% difference") +
   facet_wrap(~ year)
+diff_plot
+
+ggsave(diff_plot, filename = here("plots", "ddc_difference_2023.png"), 
+       width = 200, height = 200, units = "mm", dpi = 300)
 
