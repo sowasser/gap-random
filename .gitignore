@@ -1,13 +1,14 @@
 # Generated files
 .Rproj.user
 .Rhistory
-.RData
 .Ruserdata
 .DS_Store
 
 # Data
 *.csv
 *.rds
+*.RData
+*.txt
 
 # Plots
 *.png

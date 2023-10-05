@@ -1,7 +1,11 @@
 ### Installation --------------------------------------------------------------
 
-# Install TMB from CRAN
-install.packages("TMB")
+# Install TMB from source
+install.packages("TMB", type = "source")
+# Test TMB
+library(TMB)
+runExample(all=TRUE)
+
 # Install INLA - only testing version works
 install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/testing"), dep=TRUE)
 
