@@ -64,12 +64,13 @@ ggsave(ddc2023_map, filename = here("plots", "ddc_2023.png"),
 # Plot difference between them 
 ddc_diff <- ddc2023 %>% filter(year < 2023)
 ddc_diff$difference <- ((ddc_diff$ddc_cpue_kg_ha - ddc2022_Lukas$ddc_cpue_kg_ha) / ddc2022_Lukas$ddc_cpue_kg_ha) * 100
-is.na(ddc_diff$difference) <- 0
+ddc_diff <- ddc_diff %>%  mutate_all(~replace(., is.nan(.), 0))
+
 
 limit <- max(abs(ddc_diff$difference)) * c(-1, 1)
 diff_plot <- ggplot(data = world) +
   geom_sf() +
-  geom_point(data = ddc2022_NBS18,
+  geom_point(data = ddc_diff,
              aes(x = start_longitude, y = start_latitude, 
                  size = abs(difference), color = difference, alpha = abs(difference))) +
   coord_sf(xlim = c(-179, -157), ylim = c(54, 66), expand = FALSE) +
@@ -84,4 +85,6 @@ diff_plot
 
 ggsave(diff_plot, filename = here("plots", "ddc_difference_2023.png"), 
        width = 200, height = 200, units = "mm", dpi = 300)
+
+### Compare model-based and design-based? -------------------------------------
 
