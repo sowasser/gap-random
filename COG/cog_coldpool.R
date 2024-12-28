@@ -18,8 +18,6 @@ library(ggsidekick)
 theme_set(theme_sleek())
 
 this_year <- 2024
-
-# Read in VAST results - update for each species 
 VAST_results <- readRDS(here("COG", "VASTresults.RDS"))  # for COG 
 saveDir <- here("COG")
 
@@ -133,16 +131,16 @@ cog <- function(results = VAST_results, dir = saveDir, save_data = FALSE, save_p
                                cp < 0 ~ "Below"))
   
   sparkle <- ggplot(data = cog_error, aes(x = X, y = Y, color = Year)) +
-    geom_point(aes(shape = cp_sign), size = 13) +
+    geom_point(aes(shape = cp_sign), size = 13, alpha = 0.7) +
     scale_shape_manual(values = c("+", "-")) +
     # With arrow
     # geom_segment(data = cog_error2 %>% filter(Year >= this_year - 10), 
     #              aes(x = X, y = Y, xend = X2, yend = Y2), 
     #              alpha = 0.8, arrow = arrow(length = unit(0.03, "npc"))) +
     # Without arrow
-    geom_segment(data = cog_error2 %>% filter(Year >= this_year - 10), 
-                 aes(x = X, y = Y, xend = X2, yend = Y2), 
-                 alpha = 0.8) +
+    # geom_segment(data = cog_error2 %>% filter(Year >= this_year - 10), 
+    #              aes(x = X, y = Y, xend = X2, yend = Y2), 
+    #              alpha = 0.8) +
     geom_errorbar(aes(ymin = ymin, ymax = ymax, color = Year), alpha = 0.4) +
     geom_errorbarh(aes(xmin = xmin, xmax = xmax, color = Year), alpha = 0.4) +
     scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
@@ -182,9 +180,9 @@ cog <- function(results = VAST_results, dir = saveDir, save_data = FALSE, save_p
   if(save_plots == TRUE) {
     # ggsave(ts, filename = here(dir, "COG_utm.png"),
     #        width = 150, height = 180, unit = "mm", dpi = 300, bg = "white")
-    # ggsave(map, filename = here(dir, "COG_map.png"),
-    #        width = 110, height = 90, unit = "mm", dpi = 300,  bg = "white")
-    ggsave(sparkle, filename = here(dir, "COG_scatter.png"),
+    ggsave(map, filename = here(dir, "COG_map.png"),
+           width = 110, height = 90, unit = "mm", dpi = 300,  bg = "white")
+    ggsave(sparkle, filename = here(dir, "COG_sparkle.png"),
            width = 150, height = 100, unit = "mm", dpi = 300,  bg = "white")
     # ggsave(all, filename = here(dir, "COG_all.png"),
     #        width = 250, height = 100, unit = "mm", dpi = 300,  bg = "white")
@@ -198,5 +196,5 @@ cog <- function(results = VAST_results, dir = saveDir, save_data = FALSE, save_p
 
 cog_plots <- cog()
 # Map insert may look funny here because of the dimensions of the Rstudio plotting window. Check saved plot!
-cog_plots$all
+# cog_plots$all
 cog_plots$sparkle
