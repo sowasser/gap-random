@@ -129,8 +129,8 @@ cog <- function(results = VAST_results, dir = saveDir, save_data = FALSE, save_p
     geom_point(aes(shape = cp_sign, size = abs(cp)), alpha = 0.7) +
     scale_shape_manual(values = c("+", "_")) +
     scale_size(name = "Difference", range = c(5, 15)) +
-    guides(shape = guide_legend(override.aes = list(size = 7), order = 1), 
-           size = guide_legend(override.aes = list(size = seq(from = 3, to = 7, length.out = 4)),
+    guides(shape = guide_legend(override.aes = list(size = 8), order = 1), 
+           size = guide_legend(override.aes = list(size = seq(from = 3, to = 6, length.out = 4)),
                                order = 2)) +
     # With arrow
     # geom_segment(data = cog_error2 %>% filter(Year >= this_year - 10), 
