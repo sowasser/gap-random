@@ -48,11 +48,6 @@ cog <- function(results = VAST_results, dir = saveDir, save_data = FALSE, save_p
   cog$COG_hat <- as.numeric(cog$COG_hat)
   cog$SE <- as.numeric(cog$SE)
   
-  if(grepl("nrs", dir) == TRUE) {
-    # Remove years before 1996 if stock is Northern rock sole (due to change in IDs)
-    cog <- cog %>% filter(Year >= 1996)
-  }
-  
   cog$m[cog$m == 1] <- "Easting (km)"
   cog$m[cog$m == 2] <- "Northing (km)"
   
@@ -131,8 +126,12 @@ cog <- function(results = VAST_results, dir = saveDir, save_data = FALSE, save_p
                                cp < 0 ~ "Below"))
   
   sparkle <- ggplot(data = cog_error, aes(x = X, y = Y, color = Year)) +
-    geom_point(aes(shape = cp_sign), size = 13, alpha = 0.7) +
-    scale_shape_manual(values = c("+", "-")) +
+    geom_point(aes(shape = cp_sign, size = abs(cp)), alpha = 0.7) +
+    scale_shape_manual(values = c("+", "_")) +
+    scale_size(name = "Difference", range = c(5, 15)) +
+    guides(shape = guide_legend(override.aes = list(size = 7), order = 1), 
+           size = guide_legend(override.aes = list(size = seq(from = 3, to = 7, length.out = 4)),
+                               order = 2)) +
     # With arrow
     # geom_segment(data = cog_error2 %>% filter(Year >= this_year - 10), 
     #              aes(x = X, y = Y, xend = X2, yend = Y2), 
@@ -144,7 +143,7 @@ cog <- function(results = VAST_results, dir = saveDir, save_data = FALSE, save_p
     geom_errorbar(aes(ymin = ymin, ymax = ymax, color = Year), alpha = 0.4) +
     geom_errorbarh(aes(xmin = xmin, xmax = xmax, color = Year), alpha = 0.4) +
     scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
-    xlab("Longitude (°W)") + ylab("Latitude (°N)") + labs(shape = "Cold Pool Extent")
+    xlab("Longitude (°W)") + ylab("Latitude (°N)") + labs(shape = "Cold Pool Extent") +
     theme(plot.background = element_rect(fill = "transparent"))
   
   # Inset map into sparkleplot -----------------------------------------
