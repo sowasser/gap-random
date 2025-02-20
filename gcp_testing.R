@@ -8,13 +8,13 @@ RODBC::odbcDriverConnect("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1
 
 # Connect to Google Drive -----------------------------------------------------
 # sign into google drive auth
-googledrive::drive_auth()
+googledrive::drive_auth(path="/etc/sa_key.json")
+# googledrive::drive_auth()  # for local machine testing
 
 # download test
 googledrive::drive_download(
   file = googledrive::as_id(
-  x = "https://docs.google.com/document/d/1S0hXpYG5RfWtksEuLI916m38wZoj_vCSTyOZIj39VDQ/edit?usp=sharing"), # meeting notes
-  path = "meetingnotes.docx")
+  x = "https://drive.google.com/file/d/1Y1fbaesHacPoqgloD350XJq2VF2Jy51-/view?usp=drive_link"))
 
 # upload test
 write.csv(x = "hello world", file = "./ex.txt")
@@ -108,7 +108,7 @@ family <- list(
 # Fit tinyVAST model
 myfit <- tinyVAST(
   data = Data,
-  formula = Catch_KG ~ 0 + Year_Age,
+  formula = Abundance_per_hectare ~ 0 + Year_Age,
   sem = sem,
   dsem = dsem,
   family = family,
