@@ -1,16 +1,26 @@
 # Code for testing packages / connections needed for Modsquad activities on GCP
 
 # Connect to Oracle -----------------------------------------------------------
-RODBC::odbcDriverConnect("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;
-                         DBQ=raja.afsc.noaa.gov:1521/afsc;
-                         UID=[your user name];PWD=[your password]",
-                         row_at_time = 1)
+# Load Oracle credentials file, if you've made one, or enter & save credentials
+if(file.exists("~/oracle_credentials.R")) { 
+  source("~/oracle_credentials.R")
+} else {
+  oracle_user <- rstudioapi::showPrompt(title = "Username",
+                                        message = "Oracle Username",
+                                        default = "")
+  oracle_pw <- rstudioapi::showPrompt(title = "Password",
+                                      message = "Oracle Password",
+                                      default = "")
+}
+
+# Two different options for connecting to Oracle
+RODBC::odbcDriverConnect(connection = paste0("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;DBQ=raja.afsc.noaa.gov:1521/afsc;UID=", 
+                                             oracle_user, ";PWD=", oracle_pw),
+                         rows_at_time = 1)
 
 con <- DBI::dbConnect(odbc::odbc(),
-                      .connection_string = 
-                        "Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;
-                        DBQ=raja.afsc.noaa.gov:1521/afsc;
-                        UID=[your user name];PWD=[your password]")
+                      .connection_string = paste0("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;DBQ=raja.afsc.noaa.gov:1521/afsc;UID=", 
+                                                  oracle_user, ";PWD=", oracle_pw))
 
 # Connect to Google Drive -----------------------------------------------------
 # sign into google drive auth
@@ -51,7 +61,7 @@ library(sf)
 format_data <- function() {
   # Pull & format data
   data(bering_sea_pollock_ages)
-  Data <- subset(bering_sea_pollock_ages, Year >= 2010)
+  Data <- subset(bering_sea_pollock_ages, Year >= 2021)
   Data$Age <- factor(paste0("Age_",Data$Age))
   Data$Year_Age <- interaction(Data$Year, Data$Age)
   
