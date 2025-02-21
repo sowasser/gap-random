@@ -6,6 +6,12 @@ RODBC::odbcDriverConnect("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1
                          UID=[your user name];PWD=[your password]",
                          row_at_time = 1)
 
+con <- DBI::dbConnect(odbc::odbc(),
+                      .connection_string = 
+                        "Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;
+                        DBQ=raja.afsc.noaa.gov:1521/afsc;
+                        UID=[your user name];PWD=[your password]")
+
 # Connect to Google Drive -----------------------------------------------------
 # sign into google drive auth
 googledrive::drive_auth(path="/etc/sa_key.json")
