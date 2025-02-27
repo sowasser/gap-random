@@ -14,27 +14,38 @@ if(file.exists("~/oracle_credentials.R")) {
 }
 
 # Two different options for connecting to Oracle
-RODBC::odbcDriverConnect(connection = paste0("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;DBQ=raja.afsc.noaa.gov:1521/afsc;UID=", 
-                                             oracle_user, ";PWD=", oracle_pw),
-                         rows_at_time = 1)
+channel <- RODBC::odbcDriverConnect(connection = paste0("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;DBQ=raja.afsc.noaa.gov:1521/afsc;UID=", 
+                                                        oracle_user, ";PWD=", oracle_pw),
+                                    rows_at_time = 1)
 
 con <- DBI::dbConnect(odbc::odbc(),
                       .connection_string = paste0("Driver=/opt/oracle/instantclient_12_2/libsqora.so.12.1;DBQ=raja.afsc.noaa.gov:1521/afsc;UID=", 
                                                   oracle_user, ";PWD=", oracle_pw))
 
 # Connect to Google Drive -----------------------------------------------------
-# sign into google drive auth
-googledrive::drive_auth(path="/etc/sa_key.json")
-# googledrive::drive_auth()  # for local machine testing
+# googledrive::drive_auth(path="/etc/sa_key.json")  # to connect to the default google drive account associated with the instance
+library(gargle)
+library(googledrive)
 
-# download test
-googledrive::drive_download(
-  file = googledrive::as_id(
-  x = "https://drive.google.com/file/d/1Y1fbaesHacPoqgloD350XJq2VF2Jy51-/view?usp=drive_link"))
+# Connect to google drive using your (probs NOAA) email
+gdrive_email <- rstudioapi::showPrompt(title = "Email",
+                                       message = "Email for Google Drive",
+                                       default = "")
 
-# upload test
-write.csv(x = "hello world", file = "./ex.txt")
-googledrive::drive_upload(media = "./ex.txt")
+drive_auth(token = credentials_user_oauth2(
+  scopes = "https://www.googleapis.com/auth/drive", 
+  email = gdrive_email))
+
+drive_user()  # check user account
+
+# # download test
+# googledrive::drive_download(
+#   file = googledrive::as_id(
+#   x = "https://drive.google.com/file/d/1Y1fbaesHacPoqgloD350XJq2VF2Jy51-/view?usp=drive_link"))
+# 
+# # upload test
+# write.csv(x = "hello world", file = "./ex.txt")
+# googledrive::drive_upload(media = "./ex.txt")
 
 # Test sdmTMB, from their website: --------------------------------------------
 # https://pbs-assess.github.io/sdmTMB/index.html#basic-use
