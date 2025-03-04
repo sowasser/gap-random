@@ -12,3 +12,7 @@
 
 # Plots
 *.png
+
+# Quarto stuff
+*.html
+gcp_instructions_files/
