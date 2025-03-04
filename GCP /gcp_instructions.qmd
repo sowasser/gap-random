@@ -69,9 +69,10 @@ Configuring an SSH key for your instance is required to push to github. It is po
 Each instance is set up with a connection to a Google Drive associated with a unique email account. To connect the instance to your google account, you will need to run the following code to authenticate your credentials. The code will prompt you to provide your email address for Google Drive (which is likely your NOAA email).
 
 ```{r, eval = FALSE}
-# googledrive::drive_auth(path="/etc/sa_key.json")  # connect to default account
 library(gargle)
 library(googledrive)
+
+# googledrive::drive_auth(path="/etc/sa_key.json")  # connect to default account
 
 # Connect to google drive using your (probably NOAA) email
 gdrive_email <- rstudioapi::showPrompt(title = "Email",
