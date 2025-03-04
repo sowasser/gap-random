@@ -15,3 +15,5 @@
 
 # Quarto stuff
 gcp_instructions_files/
+*.pdf
+*.html
