@@ -13,7 +13,9 @@ Before beginning this process, please check with Sophia Wassermann, Emily Markow
 
 ## Setting up Google Cloud Provider (GCP)
 
-GCP is accessed through the command line on your local machine. First, you will need to install Google Cloud CLI: "language-specific Cloud Client Libraries" that make it "easier for you to interact with Google Cloud APIs in your language of choice". Full instructions are [here](https://cloud.google.com/sdk/docs/install-sdk). The installation instructions are specific to your operating system, under 'Installing the latest gcloud CLI version'.
+GCP is accessed through the command line on your local machine. First, you will need to install Google Cloud CLI: "language-specific Cloud Client Libraries" that make it "easier for you to interact with Google Cloud APIs in your language of choice". Full instructions are [here](https://cloud.google.com/sdk/docs/install-sdk). Skip down to the \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ section. The installation instructions are specific to your operating system, under 'Installing the latest gcloud CLI version'.
+
+CHECK BOXES
 
 Specific instructions:
 
@@ -24,21 +26,25 @@ Specific instructions:
 
 Because usage of GCP is metered, you will need to start and, importantly **stop**, your instance every time you want to use it.
 
+LOTS OF AUTHORIZATION
+
 1.  Navigate to the [AFSC dev server on GCP](https://console.cloud.google.com/compute/instances?project=ggn-nmfs-afscdsm-dev-1&cloudshell=true&authuser=0).
 
-2.  Click on the line associated with your username.
+2.  UNDER VM INSTANCES Click on the check mark in the line associated with your username.
 
 3.  Press START / RESUME on the menu bar above the list of instances. After a moment (you may need to refresh the page) the status icon for the instance will be a green circle with a checkmark instead of a gray circle with a square.
 
 4.  On your local machine, open command prompt (Windows) or terminal (Mac/Linux).
 
-5.  Paste in the following connection code, substituting `[SERVER NAME]` with the one that has been configured for you: `gcloud compute ssh --ssh-flag="-4 -L 8787:localhost:8787" [SERVER NAME] --project=ggn-nmfs-afscdsm-dev-1 --zone=us-east4-c --tunnel-through-iap`
+5.  Paste in the following connection code, substituting `[SERVER NAME]` with the one that has been configured for you (MAYBE DO IN TEXT EDITOR FIRST - NO BRACKETS): `gcloud compute ssh --ssh-flag="-4 -L 8787:localhost:8787" [SERVER NAME] --project=ggn-nmfs-afscdsm-dev-1 --zone=us-east4-c --tunnel-through-iap`
 
     e.g. `gcloud compute ssh --ssh-flag="-4 -L 8787:localhost:8787" sophia-wassermann-sdm-node --project=ggn-nmfs-afscdsm-dev-1 --zone=us-east4-c --tunnel-through-iap`
-    
-    It is a good idea to save this connection string to a file on your local machine because you will need to use it every time you connect to the instance. 
 
-6.  When you are done with your session, make sure to turn off the instance by pressing 'STOP' in the menu bar. The connection to the command line and Rstudio will be terminated and the status icon will return to the gray square. This is **very** important for keeping operating costs reasonable.
+    It is a good idea to save this connection string to a file on your local machine because you will need to use it every time you connect to the instance.
+
+6.  SAY OK TO KEYGEN
+
+7.  When you are done with your session, make sure to turn off the instance by pressing 'STOP' in the menu bar. The connection to the command line and Rstudio will be terminated and the status icon will return to the gray square. This is **very** important for keeping operating costs reasonable.
 
 ## Connecting to Rstudio Server
 
@@ -103,7 +109,7 @@ oracle_password <- "password"
 
 ```
 
-If you prefer to type your username and password in when accessing Oracle, the following code will prompt you for the information when needed. OFIS has configured two methods for connecting to Oracle. Both are presented below, but only one is necessary to connect.  
+If you prefer to type your username and password in when accessing Oracle, the following code will prompt you for the information when needed. OFIS has configured two methods for connecting to Oracle. Both are presented below, but only one is necessary to connect.
 
 ```{r, eval = FALSE}
 if(file.exists("~/oracle_credentials.R")) { 
@@ -133,7 +139,7 @@ con <- DBI::dbConnect(
 
 ## sdmTMB
 
-If you will be working with sdmTMB, run the following test [from their website](https://pbs-assess.github.io/sdmTMB/index.html#basic-use). 
+If you will be working with sdmTMB, run the following test [from their website](https://pbs-assess.github.io/sdmTMB/index.html#basic-use).
 
 ```{r, eval = FALSE}
 
