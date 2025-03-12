@@ -27,22 +27,18 @@ lbins <- cut(spec$length,
              right = FALSE)
 
 # Create new ALK
-alk_counts <- data.frame(spec, lbins) %>%
-  group_by(year, stratum, lbins, age) %>%
+alk_counts <- spec %>%
+  group_by(year, stratum, length, age) %>%
   summarise(count = n())
 
 alk_totals <- alk_counts %>%
-  group_by(year, stratum, lbins) %>%
+  group_by(year, stratum, length) %>%
   summarize(total_fish = sum(count))
 
 new_alk <- alk_counts %>%
-  left_join(alk_totals, by = c("year", "stratum", "lbins")) %>%
+  left_join(alk_totals, by = c("year", "stratum", "length")) %>%
   group_by(year, stratum) %>%
   mutate(prob = count / total_fish) %>%
-  select(year, stratum, lbins, age, prob)
+  select(year, stratum, length, age, prob)
 
 # Apply ALK to length comps ---------------------------------------------------
-# Subset the length comp dataframe for easier manipulation
-lcomps <- length_comps %>%
-  group_by(year, stratum, length) %>%
-  summarize(count = n())
