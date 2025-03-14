@@ -17,3 +17,6 @@
 gcp_instructions_files/
 *.pdf
 *.html
+
+# Specific files
+diet/oracle_query_jr.r
