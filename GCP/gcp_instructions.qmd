@@ -11,7 +11,7 @@ editor: visual
 
 Before beginning this process, please check with Sophia Wassermann, Emily Markowitz, or OFIS to confirm that a computing instance and an Rstudio server have been set up for your username.
 
-# Intital Setup
+# Initital Setup
 
 ## Setting up Google Cloud Provider (GCP)
 
@@ -19,7 +19,7 @@ GCP is accessed through the command line on your local machine. First, you will 
 
 Proceed with default settings until:
 
--   In Windows, on the final step of running the GoogleCloudInstaller, you can uncheck the boxes for creating a Start Menu & Desktop shortcut.
+-   In Windows, on the final step of running the GoogleCloudInstaller, you can un-check the boxes for creating a Start Menu & Desktop shortcut.
 -   When prompted, specify `ggn-nmfs-afscdsm-dev-1` as the default project to use.
 -   There is no need to configure compute region and zone.
 
