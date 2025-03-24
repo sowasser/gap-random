@@ -1,7 +1,9 @@
 ---
 title: "GCP Instructions"
 author: "Sophia Wassermann"
-format: pdf
+format:
+  html:
+    embed-resources: true
 editor: visual
 ---
 
