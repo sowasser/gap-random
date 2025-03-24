@@ -17,6 +17,7 @@
 gcp_instructions_files/
 *.pdf
 *.html
+*.tex
 
 # Specific files
 diet/oracle_query_jr.r

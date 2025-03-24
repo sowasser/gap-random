@@ -1,7 +1,7 @@
 ---
 title: "GCP Instructions"
 author: "Sophia Wassermann"
-format: html
+format: pdf
 editor: visual
 ---
 
@@ -13,20 +13,19 @@ Before beginning this process, please check with Sophia Wassermann, Emily Markow
 
 ## Setting up Google Cloud Provider (GCP)
 
-GCP is accessed through the command line on your local machine. First, you will need to install Google Cloud CLI: "language-specific Cloud Client Libraries" that make it "easier for you to interact with Google Cloud APIs in your language of choice". Full instructions are [here](https://cloud.google.com/sdk/docs/install-sdk). Skip down to the \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ section. The installation instructions are specific to your operating system, under 'Installing the latest gcloud CLI version'.
+GCP is accessed through the command line on your local machine. First, you will need to install Google Cloud CLI: "language-specific Cloud Client Libraries" that make it "easier for you to interact with Google Cloud APIs in your language of choice". Full instructions are [here](https://cloud.google.com/sdk/docs/install-sdk#installing_the_latest_version). The installation instructions are specific to your operating system (OS), with options for each OS under 'Installing the latest gcloud CLI version'.
 
-CHECK BOXES
+Proceed with default settings until:
 
-Specific instructions:
-
--   When prompted, specify `ggn-nmfs-afscdsm-dev-1` as the default project.
--   There is no need to configure compute region and zone when prompted.
+-   In Windows, on the final step of running the GoogleCloudInstaller, you can uncheck the boxes for creating a Start Menu & Desktop shortcut. 
+-   When prompted, specify `ggn-nmfs-afscdsm-dev-1` as the default project to use.
+-   There is no need to configure compute region and zone.
 
 ## Connecting to your instance
 
-Because usage of GCP is metered, you will need to start and, importantly **stop**, your instance every time you want to use it.
+Because usage of GCP is metered, you will need to start and, importantly **stop**, your instance every time you want to use it. 
 
-LOTS OF AUTHORIZATION
+Note, the first time you connect to your instance, there will be many authorization windows.
 
 1.  Navigate to the [AFSC dev server on GCP](https://console.cloud.google.com/compute/instances?project=ggn-nmfs-afscdsm-dev-1&cloudshell=true&authuser=0).
 
@@ -42,7 +41,7 @@ LOTS OF AUTHORIZATION
 
     It is a good idea to save this connection string to a file on your local machine because you will need to use it every time you connect to the instance.
 
-6.  SAY OK TO KEYGEN
+6.  Say ok to 'keygen' process
 
 7.  When you are done with your session, make sure to turn off the instance by pressing 'STOP' in the menu bar. The connection to the command line and Rstudio will be terminated and the status icon will return to the gray square. This is **very** important for keeping operating costs reasonable.
 
