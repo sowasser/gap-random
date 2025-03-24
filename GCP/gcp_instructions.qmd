@@ -41,13 +41,15 @@ Note, the first time you connect to your instance, there will be many authorizat
 
     e.g. `gcloud compute ssh --ssh-flag="-4 -L 8787:localhost:8787" sophia-wassermann-sdm-node --project=ggn-nmfs-afscdsm-dev-1 --zone=us-east4-c --tunnel-through-iap`
 
-    Save this connection string to a file on your local computer. You will need to use it every time you connect to your instance.
+    I recommend saving this connection string to a text file on your local computer. You will need to use it every time you connect to your instance.
 
 6.  On your local machine, open command prompt (Windows) or terminal (Mac/Linux).
 
-7.  Say ok to the 'keygen' process.
+7.  Copy the connection string into command prompt & hit enter.
 
-8.  When you are done with your session, make sure to turn off the instance by pressing 'STOP' in the menu bar. The connection to the command line and Rstudio will be terminated and the status icon will return to the gray square. This is **very** important for keeping operating costs reasonable.
+8.  A 'PuTTY' window will open. When you connect for the first time, a 'PuTTY Security Alert' window will follow because you need to set up an ssh key pair. Click 'Accept' in this window.
+
+9.  When you are done with your session, make sure to turn off the instance by pressing 'STOP' in the menu bar. The connection to the command line and Rstudio will be terminated and the status icon will return to the gray square. This is **very** important for keeping operating costs reasonable.
 
 ## Connecting to Rstudio Server
 
@@ -55,7 +57,7 @@ These instances have been built with a container image on top of rocker:rstudio 
 
 To connect:
 
-1.  Once the connection has been established, go to your browser and navigate to `http://localhost:8787/`
+1.  Once you have connected to your instance through step 8 above, open your browser and navigate to `http://localhost:8787/`
 
 2.  Log in using the username and password 'rstudio'
 
