@@ -17,33 +17,35 @@ GCP is accessed through the command line on your local machine. First, you will 
 
 Proceed with default settings until:
 
--   In Windows, on the final step of running the GoogleCloudInstaller, you can uncheck the boxes for creating a Start Menu & Desktop shortcut. 
+-   In Windows, on the final step of running the GoogleCloudInstaller, you can uncheck the boxes for creating a Start Menu & Desktop shortcut.
 -   When prompted, specify `ggn-nmfs-afscdsm-dev-1` as the default project to use.
 -   There is no need to configure compute region and zone.
 
 ## Connecting to your instance
 
-Because usage of GCP is metered, you will need to start and, importantly **stop**, your instance every time you want to use it. 
+Because usage of GCP is metered, you will need to start and, importantly **stop**, your instance every time you want to use it.
 
 Note, the first time you connect to your instance, there will be many authorization windows.
 
 1.  Navigate to the [AFSC dev server on GCP](https://console.cloud.google.com/compute/instances?project=ggn-nmfs-afscdsm-dev-1&cloudshell=true&authuser=0).
 
-2.  UNDER VM INSTANCES Click on the check mark in the line associated with your username.
+2.  The first time you navigate to Google Cloud and connect to your instance, there will be many authorization windows. Make sure you are connecting via your NOAA account.
 
-3.  Press START / RESUME on the menu bar above the list of instances. After a moment (you may need to refresh the page) the status icon for the instance will be a green circle with a checkmark instead of a gray circle with a square.
+3.  You should be in the 'Instances' pane, with a list of instances associated with people's names. Click on the check box in the line associated with your username.
 
-4.  On your local machine, open command prompt (Windows) or terminal (Mac/Linux).
+4.  Press START / RESUME in the blue menu bar above the list of instances. After a moment, the status icon for the instance will be a green circle with a checkmark instead of a gray circle with a square.
 
-5.  Paste in the following connection code, substituting `[SERVER NAME]` with the one that has been configured for you (MAYBE DO IN TEXT EDITOR FIRST - NO BRACKETS): `gcloud compute ssh --ssh-flag="-4 -L 8787:localhost:8787" [SERVER NAME] --project=ggn-nmfs-afscdsm-dev-1 --zone=us-east4-c --tunnel-through-iap`
+5.  In a text editor, copy in the following connection code, substituting `[SERVER NAME]` with the one that has been configured for you (MAYBE DO IN TEXT EDITOR FIRST - NO BRACKETS): `gcloud compute ssh --ssh-flag="-4 -L 8787:localhost:8787" [SERVER NAME] --project=ggn-nmfs-afscdsm-dev-1 --zone=us-east4-c --tunnel-through-iap`
 
     e.g. `gcloud compute ssh --ssh-flag="-4 -L 8787:localhost:8787" sophia-wassermann-sdm-node --project=ggn-nmfs-afscdsm-dev-1 --zone=us-east4-c --tunnel-through-iap`
 
-    It is a good idea to save this connection string to a file on your local machine because you will need to use it every time you connect to the instance.
+    Save this connection string to a file on your local computer. You will need to use it every time you connect to your instance.
 
-6.  Say ok to 'keygen' process
+6.  On your local machine, open command prompt (Windows) or terminal (Mac/Linux).
 
-7.  When you are done with your session, make sure to turn off the instance by pressing 'STOP' in the menu bar. The connection to the command line and Rstudio will be terminated and the status icon will return to the gray square. This is **very** important for keeping operating costs reasonable.
+7.  Say ok to the 'keygen' process.
+
+8.  When you are done with your session, make sure to turn off the instance by pressing 'STOP' in the menu bar. The connection to the command line and Rstudio will be terminated and the status icon will return to the gray square. This is **very** important for keeping operating costs reasonable.
 
 ## Connecting to Rstudio Server
 
