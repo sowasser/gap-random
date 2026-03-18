@@ -32,7 +32,7 @@ ggplot() +
   geom_sf(data = grid$survey.area, aes(linetype = SURVEY_NAME), 
           fill = "NA", linewidth = 1, color = "gray40") +
   geom_sf(data = bs_sf) +
-  # geom_sf_text(data = grid$survey.strata, aes(label = STRATUM, color = STRATUM)) +
+  geom_sf_text(data = grid$survey.strata, aes(label = STRATUM, color = STRATUM)) +
   geom_text(data = labels, aes(label = lab, x = x, y = y), color = "gray40") +
   coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), 
            ylim = c(bbox["ymin"], bbox["ymax"]), expand = TRUE) +
