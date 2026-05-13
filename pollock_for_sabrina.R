@@ -29,7 +29,8 @@ odbcGetInfo(channel)  # check connection
 
 # Get haul info
 query_command <- paste0("select a.REGION, a.CRUISE, a.START_TIME, a.HAUL_TYPE, a.PERFORMANCE, 
-                            a.STATIONID, a.GEAR_DEPTH, a.BOTTOM_DEPTH, a.GEAR_TEMPERATURE, a.HAULJOIN,
+                            a.STATIONID, a.START_LATITUDE, a. START_LONGITUDE, a.GEAR_DEPTH, 
+                            a.BOTTOM_DEPTH, a.GEAR_TEMPERATURE, a.HAULJOIN,
                             floor(a.CRUISE/100) year
                             from racebase.haul a
                             where a.PERFORMANCE >=0 and a.HAUL_TYPE = 3 and a.REGION = 'BS'
@@ -48,8 +49,8 @@ biomass <- ddc_cpue %>%
   select(Lat = start_latitude, 
          Lon = start_longitude,
          Year = year.x,
-         start_time = start_time,
-         gear_temperature = gear_temperature,
+         start_time,
+         gear_temperature,
          Abundance = ddc_cpue_kg_ha)  %>%
   mutate(CPUE_kg_km2 = Abundance * 100)  # convert from kg/ha to kg/km2
 
@@ -59,13 +60,16 @@ write.csv(biomass, here(wd, "pollock_biomass.csv"), row.names = FALSE)
 ddc_ages <- read.csv(here("data", "ddc", paste0("VAST_ddc_alk_", year, ".csv")))  # density dependence corrected
 
 numbers <- ddc_ages %>%
-  left_join(hauls, by = "hauljoin") %>%
-  select(Lat = start_latitude, 
-         Lon = start_longitude,
-         Year = year.x,
-         start_time = start_time,
-         gear_temperature = gear_temperature,
-         Age = age,
-         Abundance = ddc_ages_numbers_ha) %>%
-  mutate(CPUE_num_km2 = Abundance * 100)  # convert from numbers/ha to numbers/km2
+  left_join(hauls,
+            by = c("Lat" = "start_latitude", "Lon" = "start_longitude", "Year" = "year")) %>%
+  select(Lat,
+         Lon,
+         Year,
+         start_time,
+         gear_temperature,
+         Age,
+         CPUE_num) %>%
+  mutate(CPUE_num_km2 = CPUE_num * 100)
+
+write.csv(numbers, here(wd, "pollock_numbers.csv"), row.names = FALSE)
 
