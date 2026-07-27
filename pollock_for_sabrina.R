@@ -45,10 +45,10 @@ hauls <- sqlQuery(channel, query_command) %>%
 ddc_cpue <- read.csv(here("data", "ddc", paste0("VAST_ddc_all_", year, ".csv")))  # density dependence corrected
 
 biomass <- ddc_cpue %>%
-  left_join(hauls, by = "hauljoin") %>%
+  left_join(hauls, by = c("hauljoin", "year", "start_latitude", "start_longitude")) %>%
   select(Lat = start_latitude, 
          Lon = start_longitude,
-         Year = year.x,
+         Year = year,
          start_time,
          gear_temperature,
          Abundance = ddc_cpue_kg_ha)  %>%
@@ -73,3 +73,33 @@ numbers <- ddc_ages %>%
 
 write.csv(numbers, here(wd, "pollock_numbers.csv"), row.names = FALSE)
 
+# Plot data to double check ---------------------------------------------------
+library(ggsidekick)
+theme_set(theme_sleek())
+
+world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+sf::sf_use_s2(FALSE)  # turn off spherical geometry
+
+ggplot(data = world) +
+  geom_sf() +
+  geom_point(data = biomass %>% filter(Abundance > 0), 
+             aes(x = Lon, y = Lat, color = Abundance, fill = Abundance)) +
+  coord_sf(xlim = c(-179, -157), ylim = c(53.8, 65), expand = FALSE) +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
+  labs(x = NULL, y = NULL) +
+  facet_wrap(~ Year)
+
+ggplot(data = world) +
+  geom_sf() +
+  geom_point(data = numbers %>% filter(CPUE_num > 0), 
+             aes(x = Lon, y = Lat, color = CPUE_num, fill = CPUE_num)) +
+  coord_sf(xlim = c(-179, -157), ylim = c(53.8, 65), expand = FALSE) +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "none") +
+  labs(x = NULL, y = NULL) +
+  facet_wrap(~ Year)
