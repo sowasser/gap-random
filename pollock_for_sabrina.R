@@ -84,7 +84,7 @@ ggplot(data = world) +
   geom_sf() +
   geom_point(data = biomass %>% filter(Abundance > 0), 
              aes(x = Lon, y = Lat, color = Abundance, fill = Abundance)) +
-  coord_sf(xlim = c(-179, -157), ylim = c(53.8, 65), expand = FALSE) +
+  coord_sf(xlim = c(-179, -157), ylim = c(53.8, 66), expand = FALSE) +
   theme(axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
@@ -96,10 +96,13 @@ ggplot(data = world) +
   geom_sf() +
   geom_point(data = numbers %>% filter(CPUE_num > 0), 
              aes(x = Lon, y = Lat, color = CPUE_num, fill = CPUE_num)) +
-  coord_sf(xlim = c(-179, -157), ylim = c(53.8, 65), expand = FALSE) +
+  coord_sf(xlim = c(-179, -157), ylim = c(53.8, 66), expand = FALSE) +
   theme(axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
         legend.position = "none") +
   labs(x = NULL, y = NULL) +
   facet_wrap(~ Year)
+
+ggsave(filename = here(wd, "pollock_data_map.png"), 
+       width = 5, height = 7, units = "in")
