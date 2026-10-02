@@ -11,17 +11,14 @@ library(akgfmaps)
 library(stars)
 library(viridis)
 
+# Plotting aesthetics
 if (!requireNamespace("ggsidekick", quietly = TRUE)) {
   pak::pkg_install("seananderson/ggsidekick")
 }
 library(ggsidekick)
 theme_set(theme_sleek())
 
-# Create directory for output
-wd <- here("data", "cod maps")
-dir.create(wd, showWarnings = FALSE, recursive = TRUE)
-
-# Connect to Oracle & ---------------------------------------------------------
+# Connect to Oracle -----------------------------------------------------------
 if (file.exists("Z:/Projects/ConnectToOracle.R")) {
   source("Z:/Projects/ConnectToOracle.R")
 } else {
@@ -44,6 +41,10 @@ odbcGetInfo(channel)  # check connection
 species <- 21720  # adult cod only; could generalize to include juvenile cod.
 this_year <- as.numeric(format(Sys.Date(), "%Y"))
 years <- (this_year - 2):this_year
+
+# Create directory for output
+wd <- here("data", "cod maps")
+dir.create(wd, showWarnings = FALSE, recursive = TRUE)
 
 # Pull cod data & calculate CPUE ----------------------------------------------
 # Separate for EBS & NBS as combined area pulls haven't been tested
