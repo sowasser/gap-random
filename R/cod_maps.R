@@ -40,12 +40,17 @@ if (file.exists("Z:/Projects/ConnectToOracle.R")) {
 
 odbcGetInfo(channel)  # check connection
 
+# Set inputs ------------------------------------------------------------------
+species <- 21720  # adult cod only; could generalize to include juvenile cod.
+this_year <- as.numeric(format(Sys.Date(), "%Y"))
+years <- (this_year - 2):this_year
+
 # Pull cod data & calculate CPUE ----------------------------------------------
 # Separate for EBS & NBS as combined area pulls haven't been tested
 cod_data_ebs <- get_data(
   year_set = c(2024:2026),
   survey_set = "EBS",
-  spp_codes = 21720,   
+  spp_codes = species,   
   haul_type = 3,
   abundance_haul = "Y",
   pull_lengths = FALSE,
@@ -93,13 +98,13 @@ bin_labels <- c(
 )
 
 # Make inverse distance weighted spatial surface for each year
-years <- sort(unique(cod_cpue$YEAR))
+no_nbs <- years[!(years %in% cod_cpue_nbs$YEAR)]  # subset of years w/ no NBS for plotting
 
 idw_list <- lapply(years, function(yr) {
   df_yr <- cod_cpue %>% filter(YEAR == yr)
   
   # Select region and mask based on whether NBS was surveyed
-  if (yr %in% c(2024, 2026)) {
+  if (yr %in% no_nbs) {
     target_region <- "bs.south"
     survey_mask   <- bs_south_layers$survey.area
   } else {
@@ -121,7 +126,7 @@ idw_list <- lapply(years, function(yr) {
   
   if (!is.null(grid_stars)) {
     # Crop raster grid to year-appropriate survey boundary
-    masked_stars <- grid_stars[survey_mask] # FIXED: Uses dynamic survey_mask
+    masked_stars <- grid_stars[survey_mask] 
     
     # Convert stars object to sf polygons
     grid_sf <- st_as_sf(masked_stars, as_points = FALSE)
@@ -132,10 +137,9 @@ idw_list <- lapply(years, function(yr) {
   return(NULL)
 })
 
-# Combine all years using do.call(rbind, ...) for sf objects
+# Combine all years and plot
 idw_all <- do.call(rbind, idw_list[!sapply(idw_list, is.null)])
 
-# Plot maps
 sf_use_s2(FALSE)  # spherical geometry switched off
 ggplot() +
   geom_sf(data = idw_all, aes(fill = factor(var1.pred)), color = NA) +
